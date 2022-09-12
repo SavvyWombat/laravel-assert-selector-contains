@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="FMT_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
+  <description>The coding standard for SavvyWombat Laravel AssertSelectorContains.</description>
+
+  <!-- Exclude directories -->
+  <exclude-pattern>.idea/*</exclude-pattern>
+  <exclude-pattern>coverage/*</exclude-pattern>
+  <exclude-pattern>vendor/*</exclude-pattern>
+
+  <!-- Exclude helper files -->
+  <exclude-pattern>.phpstorm.meta.php</exclude-pattern>
+
+  <!-- Use the PSR-12 coding standard -->
+  <rule ref="PSR12" />
+  <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+    <exclude-pattern>tests/Unit/*</exclude-pattern>
+    <exclude-pattern>tests/Feature/*</exclude-pattern>
+  </rule>
+  <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+    <exclude-pattern>database/migrations/*</exclude-pattern>
+  </rule>
+
+</ruleset>
