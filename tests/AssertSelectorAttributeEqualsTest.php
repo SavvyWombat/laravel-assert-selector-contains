@@ -27,7 +27,7 @@ class AssertSelectorAttributeEqualsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'nothing' was not found in the response.");
+        $this->expectExceptionMessage("Selector 'nothing' missing from response.");
 
         $response->assertSelectorAttributeEquals('nothing', 'name', 'requiredValue');
     }
@@ -39,7 +39,7 @@ class AssertSelectorAttributeEqualsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'h1' does not have the attribute 'name'.");
+        $this->expectExceptionMessage("Selector 'h1' missing attribute 'name'.");
 
         $response->assertSelectorAttributeEquals('h1', 'name', 'unknownValue');
     }
@@ -51,7 +51,7 @@ class AssertSelectorAttributeEqualsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The attribute 'name' on the selector 'input' does not have the expected value 'unknownValue'.");
+        $this->expectExceptionMessage("Attribute 'name' on selector 'input' does not have the expected value 'unknownValue'.");
 
         $response->assertSelectorAttributeEquals('input', 'name', 'unknownValue');
     }

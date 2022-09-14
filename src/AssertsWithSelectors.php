@@ -39,9 +39,7 @@ trait AssertsWithSelectors
             $selectorContents = $this->getSelectorContents($selector);
 
             if ($selectorContents->length === 0) {
-                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
-
-                return $this;
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
             }
 
             PHPUnit::assertTrue(true);
@@ -53,13 +51,26 @@ trait AssertsWithSelectors
         /**
          * @throws AssertionFailedError
          */
+        TestResponse::macro('assertSelectorDoesNotExist', function (string $selector): TestResponse {
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::assertTrue(true);
+
+                return $this;
+            }
+
+            PHPUnit::fail("Selector '{$selector}' found in response.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
         TestResponse::macro('assertSelectorContains', function (string $selector, string $value): TestResponse {
             $selectorContents = $this->getSelectorContents($selector);
 
             if ($selectorContents->length === 0) {
-                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
-
-                return $this;
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
             }
 
             foreach ($selectorContents as $element) {
@@ -70,7 +81,28 @@ trait AssertsWithSelectors
                 }
             }
 
-            PHPUnit::fail("The selector '{$selector}' did not contain the value '{$value}'.");
+            PHPUnit::fail("Selector '{$selector}' does not contain '{$value}'.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorDoesNotContain', function (string $selector, string $value): TestResponse {
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
+            }
+
+            foreach ($selectorContents as $element) {
+                if (Str::contains($element->textContent, $value)) {
+                    PHPUnit::fail("Selector '{$selector}' found with content '${value}'.");
+                }
+            }
+
+            PHPUnit::assertTrue(true);
+
+            return $this;
         });
 
         /**
@@ -80,9 +112,7 @@ trait AssertsWithSelectors
             $selectorContents = $this->getSelectorContents($selector);
 
             if ($selectorContents->length === 0) {
-                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
-
-                return $this;
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
             }
 
             foreach ($selectorContents as $element) {
@@ -93,7 +123,28 @@ trait AssertsWithSelectors
                 }
             }
 
-            PHPUnit::fail("The selector '{$selector}' does not have the attribute '{$attribute}'.");
+            PHPUnit::fail("Selector '{$selector}' missing attribute '{$attribute}'.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorAttributeDoesNotExist', function (string $selector, string $attribute): TestResponse {
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
+            }
+
+            foreach ($selectorContents as $element) {
+                if ($element->hasAttribute($attribute)) {
+                    PHPUnit::fail("Selector '{$selector}' found with attribute '{$attribute}'.");
+                }
+            }
+
+            PHPUnit::assertTrue(true);
+
+            return $this;
         });
 
         /**
@@ -105,9 +156,7 @@ trait AssertsWithSelectors
             $selectorContents = $this->getSelectorContents($selector);
 
             if ($selectorContents->length === 0) {
-                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
-
-                return $this;
+                PHPUnit::fail("Selector '{$selector}' missing from response.");
             }
 
             foreach ($selectorContents as $element) {
@@ -118,7 +167,26 @@ trait AssertsWithSelectors
                 }
             }
 
-            PHPUnit::fail("The attribute '{$attribute}' on the selector '{$selector}' does not have the expected value '{$value}'.");
+            PHPUnit::fail("Attribute '{$attribute}' on selector '{$selector}' does not have the expected value '{$value}'.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorAttributeDoesNotEqual', function (string $selector, string $attribute, string $value): TestResponse {
+            $this->assertSelectorAttributeExists($selector, $attribute);
+
+            $selectorContents = $this->getSelectorContents($selector);
+
+            foreach ($selectorContents as $element) {
+                if ($element->getAttribute($attribute) === $value) {
+                    PHPUnit::fail("Selector '{$selector}' found with attribute '{$attribute}' set to value '{$value}'.");
+                }
+            }
+
+            PHPUnit::assertTrue(true);
+
+            return $this;
         });
     }
 }

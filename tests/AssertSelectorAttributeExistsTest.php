@@ -27,7 +27,7 @@ class AssertSelectorAttributeExistsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'input[name=doesNotExist]' was not found in the response.");
+        $this->expectExceptionMessage("Selector 'input[name=doesNotExist]' missing from response.");
 
 
         $response->assertSelectorAttributeExists('input[name=doesNotExist]', 'required');
@@ -40,7 +40,7 @@ class AssertSelectorAttributeExistsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'input[name=notRequiredValue]' does not have the attribute 'required'.");
+        $this->expectExceptionMessage("Selector 'input[name=notRequiredValue]' missing attribute 'required'.");
 
 
         $response->assertSelectorAttributeExists('input[name=notRequiredValue]', 'required');

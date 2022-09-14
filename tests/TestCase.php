@@ -22,8 +22,15 @@ abstract class TestCase extends BaseTestCase
 <body>
     <h1>Test Document</h1>
 
-    <input type="text" name="requiredValue" required/>
-    <input type="text" name="notRequiredValue"/>
+    <label>
+        Label for required value
+        <input type="text" name="requiredValue" required/>
+    </label>
+    
+    <label>
+        Label for non-required value
+        <input type="text" name="notRequiredValue"/>
+    </label>
 </body>
 </html>
 EODOC;

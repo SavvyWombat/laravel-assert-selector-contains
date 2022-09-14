@@ -6,41 +6,42 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use PHPUnit\Framework\AssertionFailedError;
 use SavvyWombat\LaravelAssertSelectorContains\AssertsWithSelectors;
 
-class AssertSelectorContainsTest extends TestCase
+class AssertSelectorAttributeDoesNotEqualTest extends TestCase
 {
     use AssertsWithSelectors;
     use CreatesApplication;
 
-    public function testSelectorFoundWithExpectedContent(): void
+    public function testAttributeDoesNotEqualExpectedValue(): void
     {
         $response = $this->makeMockResponse([
             'render' => $this->loadTestDocument(),
         ]);
 
-        $response->assertSelectorContains('h1', 'Test Document');
+        $response->assertSelectorAttributeDoesNotEqual('input', 'name', 'someOtherInput');
     }
 
-    public function testSelectorNotFound(): void
+    public function testAttributeEqualsExpectedValue(): void
     {
         $response = $this->makeMockResponse([
             'render' => $this->loadTestDocument(),
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("Selector 'nothing' missing from response.");
+        $this->expectExceptionMessage("Selector 'input' found with attribute 'name' set to value 'requiredValue'.");
 
-        $response->assertSelectorContains('nothing', 'Test Document');
+        $response->assertSelectorAttributeDoesNotEqual('input', 'name', 'requiredValue');
+
     }
 
-    public function testSelectFoundWithDifferentContent(): void
+    public function testAttributeNotFound(): void
     {
         $response = $this->makeMockResponse([
             'render' => $this->loadTestDocument(),
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("Selector 'h1' does not contain 'Not the actual title'.");
+        $this->expectExceptionMessage("Selector 'input' missing attribute 'miscellaneous'.");
 
-        $response->assertSelectorContains('h1', 'Not the actual title');
+        $response->assertSelectorAttributeDoesNotEqual('input', 'miscellaneous', 'requiredValue');
     }
 }

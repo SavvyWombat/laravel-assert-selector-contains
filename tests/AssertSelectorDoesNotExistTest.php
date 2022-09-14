@@ -6,19 +6,10 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use PHPUnit\Framework\AssertionFailedError;
 use SavvyWombat\LaravelAssertSelectorContains\AssertsWithSelectors;
 
-class AssertSelectorContainsExists extends TestCase
+class AssertSelectorDoesNotExistTest extends TestCase
 {
     use AssertsWithSelectors;
     use CreatesApplication;
-
-    public function testSelectorFound(): void
-    {
-        $response = $this->makeMockResponse([
-            'render' => $this->loadTestDocument(),
-        ]);
-
-        $response->assertSelectorExists('h1');
-    }
 
     public function testSelectorNotFound(): void
     {
@@ -26,9 +17,18 @@ class AssertSelectorContainsExists extends TestCase
             'render' => $this->loadTestDocument(),
         ]);
 
-        $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("Selector 'does-not-exist' missing from response.");
+        $response->assertSelectorDoesNotExist('notAnElement');
+    }
 
-        $response->assertSelectorExists('does-not-exist');
+    public function testSelectorFound(): void
+    {
+        $response = $this->makeMockResponse([
+            'render' => $this->loadTestDocument(),
+        ]);
+
+        $this->expectException(AssertionFailedError::class);
+        $this->expectExceptionMessage("Selector 'h1' found in response.");
+
+        $response->assertSelectorDoesNotExist('h1');
     }
 }
