@@ -15,9 +15,6 @@ trait AssertsWithSelectors
 {
     public function setupAssertsWithSelectors(): void
     {
-        /**
-         * @see https://liamhammett.com/laravel-testing-css-selector-assertion-macros-D9o0YAQJ
-         */
         TestResponse::macro('getSelectorContents', function (string $selector): DOMNodeList {
             $dom = new DOMDocument();
 
@@ -33,6 +30,24 @@ trait AssertsWithSelectors
             $elements = $xpath->query($xpathSelector);
 
             return $elements;
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorExists', function (string $selector): TestResponse {
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
+
+                return $this;
+            }
+
+            PHPUnit::assertTrue(true);
+
+            return $this;
+
         });
 
         /**
@@ -56,6 +71,54 @@ trait AssertsWithSelectors
             }
 
             PHPUnit::fail("The selector '{$selector}' did not contain the value '{$value}'.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorAttributeExists', function (string $selector, string $attribute): TestResponse {
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
+
+                return $this;
+            }
+
+            foreach ($selectorContents as $element) {
+                if ($element->hasAttribute($attribute)) {
+                    PHPUnit::assertTrue(true);
+
+                    return $this;
+                }
+            }
+
+            PHPUnit::fail("The selector '{$selector}' does not have the attribute '{$attribute}'.");
+        });
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro('assertSelectorAttributeEquals', function (string $selector, string $attribute, string $value): TestResponse {
+            $this->assertSelectorAttributeExists($selector, $attribute);
+
+            $selectorContents = $this->getSelectorContents($selector);
+
+            if ($selectorContents->length === 0) {
+                PHPUnit::fail("The selector '{$selector}' was not found in the response.");
+
+                return $this;
+            }
+
+            foreach ($selectorContents as $element) {
+                if ($element->getAttribute($attribute) === $value) {
+                    PHPUnit::assertTrue(true);
+
+                    return $this;
+                }
+            }
+
+            PHPUnit::fail("The attribute '{$attribute}' on the selector '{$selector}' does not have the expected value '{$value}'.");
         });
     }
 }

@@ -6,19 +6,18 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use PHPUnit\Framework\AssertionFailedError;
 use SavvyWombat\LaravelAssertSelectorContains\AssertsWithSelectors;
 
-class AssertSelectorContainsTest extends TestCase
+class AssertSelectorAttributeExistsTest extends TestCase
 {
     use AssertsWithSelectors;
     use CreatesApplication;
 
-    public function testSelectorFoundWithExpectedContent(): void
+    public function testAttributeExists(): void
     {
         $response = $this->makeMockResponse([
             'render' => $this->loadTestDocument(),
         ]);
 
-        $response->assertSee('Test Document');
-        $response->assertSelectorContains('h1', 'Test Document');
+        $response->assertSelectorAttributeExists('input[name=requiredValue]', 'required');
     }
 
     public function testSelectorNotFound(): void
@@ -28,20 +27,22 @@ class AssertSelectorContainsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'nothing' was not found in the response.");
+        $this->expectExceptionMessage("The selector 'input[name=doesNotExist]' was not found in the response.");
 
-        $response->assertSelectorContains('nothing', 'Test Document');
+
+        $response->assertSelectorAttributeExists('input[name=doesNotExist]', 'required');
     }
 
-    public function testSelectFoundWithDifferentContent(): void
+    public function testAttributeNotFound(): void
     {
         $response = $this->makeMockResponse([
             'render' => $this->loadTestDocument(),
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("The selector 'h1' did not contain the value 'Not the actual title'.");
+        $this->expectExceptionMessage("The selector 'input[name=notRequiredValue]' does not have the attribute 'required'.");
 
-        $response->assertSelectorContains('h1', 'Not the actual title');
+
+        $response->assertSelectorAttributeExists('input[name=notRequiredValue]', 'required');
     }
 }
