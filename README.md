@@ -37,7 +37,7 @@ This package will be published at [Composer](https://getcomposer.org/) soon.
 
 ## Usage
 
-```
+```php
 namespace Tests\Feature;
 
 use SavvyWombat\LaravelAssertSelectorContains\AssertsWithSelectors;
