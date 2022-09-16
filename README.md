@@ -33,7 +33,9 @@ Or if a specific input has been set with the correct initial value:
 
 ## Installation
 
-This package will be published at [Composer](https://getcomposer.org/) soon.
+This package is available using [Composer](https://getcomposer.org/).
+
+`composer require --dev savvywombat/laravel-assert-selector-contains`
 
 ## Usage
 
