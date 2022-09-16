@@ -30,7 +30,6 @@ class AssertSelectorAttributeDoesNotEqualTest extends TestCase
         $this->expectExceptionMessage("Selector 'input' found with attribute 'name' set to value 'requiredValue'.");
 
         $response->assertSelectorAttributeDoesNotEqual('input', 'name', 'requiredValue');
-
     }
 
     public function testAttributeNotFound(): void

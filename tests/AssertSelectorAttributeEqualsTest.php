@@ -51,7 +51,9 @@ class AssertSelectorAttributeEqualsTest extends TestCase
         ]);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage("Attribute 'name' on selector 'input' does not have the expected value 'unknownValue'.");
+        $this->expectExceptionMessage(
+            "Attribute 'name' on selector 'input' does not have the expected value 'unknownValue'."
+        );
 
         $response->assertSelectorAttributeEquals('input', 'name', 'unknownValue');
     }
