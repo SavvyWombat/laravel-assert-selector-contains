@@ -16,14 +16,22 @@ Laravel's built-in `assertSee` is useful, but has some limitations:
 
 This package provides a collection of additional assertions available on Laravel's `TestResponse` to help target specific elements/attributes and improve message on failure.
 
-* `assertSelectorExists($selector)`
-* `assertSelectorDoesNotExist($selector)`
-* `assertSelectorContains($selector, $value)`
-* `assertSelectorDoesNotContain($selector, $value)`
-* `assertSelectorAttributeExists($selector, $attribute)`
-* `assertSelectorAttributeDoesNotExist($selector, $attribute)`
-* `assertSelectorAttributeEquals($selector, $attribute, $value)`
-* `assertSelectorAttributeDoesNotEqual($selector, $attribute, $value)`
+```
+assertSelectorExists($selector)
+assertSelectorDoesNotExist($selector)
+
+assertSelectorContains($selector, $value)
+assertSelectorDoesNotContain($selector, $value)
+
+assertSelectorAttributeExists($selector, $attribute)
+assertSelectorAttributeDoesNotExist($selector, $attribute)
+
+assertSelectorAttributeEquals($selector, $attribute, $value)
+assertSelectorAttributeDoesNotEqual($selector, $attribute, $value)
+
+assertSelectorAttributeContains($selector, $attribute, $value)
+assertSelectorAttributeDoesNotContain($selector, $attribute, $value)
+```
 
 So, if you want to make sure that you are correctly setting the document title:
 

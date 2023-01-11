@@ -218,5 +218,57 @@ trait AssertsWithSelectors
                 return $this;
             }
         );
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro(
+            'assertSelectorAttributeContains',
+            function (string $selector, string $attribute, string $value): TestResponse {
+                $this->assertSelectorAttributeExists($selector, $attribute);
+
+                $selectorContents = $this->getSelectorContents($selector);
+
+                if ($selectorContents->length === 0) {
+                    PHPUnit::fail("Selector '{$selector}' missing from response.");
+                }
+
+                foreach ($selectorContents as $element) {
+                    if (Str::contains($element->getAttribute($attribute), $value)) {
+                        PHPUnit::assertTrue(true);
+
+                        return $this;
+                    }
+                }
+
+                PHPUnit::fail(
+                    "Attribute '{$attribute}' on selector '{$selector}' does not contain the expected value '{$value}'."
+                );
+            }
+        );
+
+        /**
+         * @throws AssertionFailedError
+         */
+        TestResponse::macro(
+            'assertSelectorAttributeDoesNotContain',
+            function (string $selector, string $attribute, string $value): TestResponse {
+                $this->assertSelectorAttributeExists($selector, $attribute);
+
+                $selectorContents = $this->getSelectorContents($selector);
+
+                foreach ($selectorContents as $element) {
+                    if (Str::contains($element->getAttribute($attribute), $value)) {
+                        PHPUnit::fail(
+                            "Selector '{$selector}' found with attribute '{$attribute}' containing '{$value}'."
+                        );
+                    }
+                }
+
+                PHPUnit::assertTrue(true);
+
+                return $this;
+            }
+        );
     }
 }
