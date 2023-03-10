@@ -6,7 +6,7 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 use PHPUnit\Framework\AssertionFailedError;
 use SavvyWombat\LaravelAssertSelectorContains\AssertsWithSelectors;
 
-class AssertSelectorContainsExists extends TestCase
+class AssertSelectorExistsTest extends TestCase
 {
     use AssertsWithSelectors;
     use CreatesApplication;
