@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/savvywombat/laravel-assert-selector-contains.svg)](https://packagist.org/packages/savvywombat/laravel-assert-selector-contains)
 ![Supported PHP Version](https://img.shields.io/packagist/php-v/savvywombat/laravel-assert-selector-contains?style=flat-square)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
-[![Build](https://img.shields.io/github/workflow/status/SavvyWombat/laravel-assert-selector-contains/Test)](https://github.com/SavvyWombat/laravel-assert-selector-contains/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/SavvyWombat/laravel-assert-selector-contains/test.yml?branch=main)](https://github.com/SavvyWombat/laravel-assert-selector-contains/actions)
 [![Code Coverage](https://codecov.io/gh/SavvyWombat/laravel-assert-selector-contains/branch/main/graph/badge.svg)](https://codecov.io/gh/SavvyWombat/laravel-assert-selector-contains)
 
 Targeted content assertions using CSS selector expressions.
