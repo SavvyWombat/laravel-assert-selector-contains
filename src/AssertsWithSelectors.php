@@ -109,7 +109,7 @@ trait AssertsWithSelectors
 
                 foreach ($selectorContents as $element) {
                     if (Str::contains($element->textContent, $value)) {
-                        PHPUnit::fail("Selector '{$selector}' found with content '${value}'.");
+                        PHPUnit::fail("Selector '{$selector}' found with content '{$value}'.");
                     }
                 }
 
